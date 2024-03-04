@@ -24,7 +24,7 @@ public class Partida {
     //Método para crear una baraja
     public void crearBaraja() {
         char[] palos = {'C', 'T', 'P', 'D'};
-        String[] nombres = {"AS", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        String[] nombres = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
         int valor;
 
         for (char palo : palos) {
