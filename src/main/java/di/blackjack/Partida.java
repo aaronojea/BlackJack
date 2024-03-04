@@ -104,8 +104,13 @@ public class Partida {
 
         for (ModeloCarta carta : cartas) {
             suma += carta.getValor();
+            if(carta.getValor() == 1) {
+                suma = suma + 10;
+                if(suma > 21) {
+                    suma = suma - 10;
+                }
+            }
         }
-
         return  suma;
     }
 }

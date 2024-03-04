@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="730.0" prefWidth="980.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="730.0" prefWidth="981.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="730.0" prefWidth="980.0">
          <children>
@@ -102,7 +102,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="730.0" prefWidth="133.0" spacing="260.0">
+            <VBox prefHeight="730.0" prefWidth="122.0" spacing="260.0">
                <padding>
                   <Insets bottom="10.0" right="10.0" top="10.0" />
                </padding>

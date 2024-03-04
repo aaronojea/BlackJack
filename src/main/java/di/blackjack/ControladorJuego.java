@@ -5,9 +5,16 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,8 +29,6 @@ public class ControladorJuego implements Initializable {
     private Button bHit;
     private Button bStand;
 
-    private Partida partida = new Partida();
-
     private AnchorPane cMaquina, cJugador;
 
     private Label puntosMaquina, puntosJugador, coins;
@@ -33,9 +38,16 @@ public class ControladorJuego implements Initializable {
 
     private Carta carta2;
 
+    private ImageView imagenView;
+
+    private Button bAccept;
+
+    private TextField cTexto;
+
+    private Partida partida = new Partida();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         this.mostrarMenu();
     }
 
@@ -86,33 +98,31 @@ public class ControladorJuego implements Initializable {
             bExit.setOnAction(e -> retirarse());
 
             bStand = (Button) contenido.lookup("#bStand");
-            bStand.setOnAction(e -> plantarse());
+            bStand.setOnAction(e -> {
+                try {
+                    plantarse();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             this.partida.iniciarPartida();
             this.puntuacionJugador(1, "restar");
             this.carta2.setImagen("Acarta");
 
-
             this.mostrarCarta(cJugador, this.partida.cartaJugador(), true);
             this.mostrarCarta(cJugador, this.partida.cartaJugador(), true);
             ponerPuntos(cJugador);
+
             this.mostrarCarta(cMaquina, this.partida.cartaMaquina(), true);
             this.mostrarCarta(cMaquina, this.partida.cartaMaquina(), false);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    void plantarse() {
-        System.out.println("plantarse");
-        desvelarCartas();
-        ponerPuntos(cMaquina);
-        jugarIA();
-        ponerPuntos(cMaquina);
-    }
 
-    public void desvelarCartas() {
-        this.partida.maquina.forEach(carta -> {
-            this.mostrarCarta(cMaquina, carta, true);
-        });
+    private void mostrarPuntuaciones() {
+
     }
 
     void pedirCarta() {
@@ -126,42 +136,14 @@ public class ControladorJuego implements Initializable {
     void retirarse() {
         mostrarMenu();
     }
-    public void jugarIA() {
 
-        while (this.partida.puntos(this.partida.maquina) < this.partida.puntos(this.partida.jugador)) {
-            this.mostrarCarta(cMaquina, this.partida.cartaMaquina(), false);
-        }
-
-        comprobarResultado();
+    void plantarse() throws IOException {
         desvelarCartas();
+        //ponerPuntos(cMaquina);
+        jugarIA();
+        ponerPuntos(cMaquina);
     }
 
-    public void comprobarResultado() {
-
-        if(this.partida.puntos(this.partida.maquina) > 21) {
-            if(this.partida.puntos(this.partida.jugador) == 21) {
-                System.out.println("NORABOA BLACK JACK, MAIS 2 PUNTOS");
-                puntuacionJugador(3, "sumar");
-            }else {
-                System.out.println("Noraboa, mais 1 punto");
-                puntuacionJugador(2, "sumar");
-            }
-        }else if (this.partida.puntos(this.partida.maquina) == 21) {
-            if(this.partida.puntos(this.partida.jugador) == 21) {
-                System.out.println("EMPATE");
-                puntuacionJugador(1, "sumar");
-            }else {
-                System.out.println("HAS PERDIDO");
-            }
-        }else {
-            if(this.partida.puntos(this.partida.maquina) >= this.partida.puntos(this.partida.jugador)) {
-                System.out.println("HAS PERDIDO");
-            }
-        }
-    }
-    private void mostrarPuntuaciones() {
-
-    }
     public void mostrarCarta(AnchorPane zona, ModeloCarta carta, boolean volteada) {
         Carta c = new Carta();
         int x=0;
@@ -191,6 +173,74 @@ public class ControladorJuego implements Initializable {
             int punt = this.partida.puntos(this.partida.jugador);
             this.puntosJugador.setText(String.valueOf(punt));
         }
+    }
+
+    public void desvelarCartas() {
+
+        Carta c= (Carta) this.cMaquina.getChildren().get(this.cMaquina.getChildren().size()-1);
+        ModeloCarta carta = this.partida.maquina.get(this.partida.maquina.size() - 1);
+        System.out.println(c);
+        c.setImagen(carta.getImagen());
+    }
+
+    public void jugarIA() throws IOException {
+
+        while (this.partida.puntos(this.partida.maquina) < this.partida.puntos(this.partida.jugador)) {
+            this.mostrarCarta(cMaquina, this.partida.cartaMaquina(), true);
+        }
+
+        comprobarResultado();
+    }
+
+    public void comprobarResultado() throws IOException {
+        String mensaje="";
+
+        if(this.partida.puntos(this.partida.maquina) > 21) {
+            if(this.partida.puntos(this.partida.jugador) == 21) {
+                System.out.println("NORABOA BLACK JACK, MAIS 2 PUNTOS");
+                mensaje="NORABOA BLACK JACK, MAIS 2 PUNTOS";
+                puntuacionJugador(3, "sumar");
+            }else {
+                System.out.println("Noraboa, mais 1 punto");
+                mensaje="Noraboa, mais 1 punto";
+                puntuacionJugador(2, "sumar");
+            }
+        }else if (this.partida.puntos(this.partida.maquina) == 21) {
+            if(this.partida.puntos(this.partida.jugador) == 21) {
+                System.out.println("EMPATE");
+                mensaje="EMPATE";
+                puntuacionJugador(1, "sumar");
+            }else {
+                System.out.println("HAS PERDIDO");
+                mensaje="HAS PERDIDO";
+            }
+        }else {
+            if(this.partida.puntos(this.partida.maquina) >= this.partida.puntos(this.partida.jugador)) {
+                System.out.println("HAS PERDIDO");
+                mensaje="HAS PERDIDO";
+            }
+        }
+        abrirVentana(mensaje);
+        //nuevaPartida();
+    }
+
+    public void abrirVentana(String mensaje) throws IOException {
+        
+        Stage stage = new Stage();
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("ventanaInfo.fxml"));
+
+        Parent root = loader.load();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle("Ventana Modal");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+        Button bAceptar = (Button) root.lookup("#bAceptar");
+        bAceptar.setOnAction(event -> {
+            nuevaPartida();
+            stage.close();
+        });
     }
 
     public void puntuacionJugador(int puntos, String operacion) {
