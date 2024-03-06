@@ -26,7 +26,7 @@
                         <Font name="Bodoni MT" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="bAceptar" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: transparent;" text="Accept" textFill="#bff5ff">
+                  <Button fx:id="bAceptar" accessibleHelp="Accpet button" accessibleRoleDescription="Accpet button" accessibleText="Accept button" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: transparent;" text="Accept" textFill="#bff5ff">
                      <font>
                         <Font name="Bodoni MT" size="14.0" />
                      </font></Button>

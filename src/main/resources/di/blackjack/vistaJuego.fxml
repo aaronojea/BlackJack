@@ -23,7 +23,7 @@
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <children>
-                        <Button fx:id="bExit" mnemonicParsing="false" prefHeight="27.0" prefWidth="101.0" text="EXIT">
+                        <Button fx:id="bExit" accessibleHelp=" Exit button" accessibleRoleDescription=" Exit button" accessibleText="Exit button" mnemonicParsing="false" prefHeight="27.0" prefWidth="101.0" style="-fx-background-color: rgb(202,202,116);" text="EXIT">
                            <font>
                               <Font name="Bodoni MT Black" size="14.0" />
                            </font>
@@ -48,7 +48,7 @@
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="puntosMaquina" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black;" text="0" textFill="WHITE" GridPane.columnIndex="1">
+                                    <Label fx:id="puntosMaquina" accessibleHelp="Machine points" accessibleRoleDescription="Machine points" accessibleText="Machine points" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black;" text="0" textFill="WHITE" GridPane.columnIndex="1">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
@@ -64,7 +64,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" />
                      </padding>
                      <children>
-                        <Button fx:id="bHit" mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0" text="HIT">
+                        <Button fx:id="bHit" accessibleHelp="Hit button" accessibleRoleDescription="Hit button" accessibleText="Hit button" mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: rgb(202,202,116);" text="HIT">
                            <font>
                               <Font name="Bodoni MT Black" size="14.0" />
                            </font>
@@ -88,7 +88,7 @@
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="puntosJugador" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black;" text="0" textFill="WHITE" GridPane.columnIndex="1">
+                                    <Label fx:id="puntosJugador" accessibleHelp="Player points" accessibleRoleDescription="Player points" accessibleText="Player points" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black;" text="0" textFill="WHITE" GridPane.columnIndex="1">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
@@ -116,7 +116,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="coins" alignment="CENTER" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: #FFFFFF;" text="5" GridPane.columnIndex="1">
+                        <Label fx:id="coins" accessibleHelp="Coins " accessibleRoleDescription="Coins " accessibleText="Conis " alignment="CENTER" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: #FFFFFF;" text="5" GridPane.columnIndex="1">
                            <font>
                               <Font name="Bodoni MT Black" size="18.0" />
                            </font>
@@ -128,8 +128,8 @@
                         </Label>
                      </children>
                   </GridPane>
-                  <Carta fx:id="carta2" />
-                  <Button fx:id="bStand" mnemonicParsing="false" prefHeight="27.0" prefWidth="121.0" text="STAND">
+                  <Carta fx:id="carta2" accessibleHelp="Deck" accessibleRoleDescription="Deck" accessibleText="Deck" />
+                  <Button fx:id="bStand" accessibleHelp="Stand button" accessibleRoleDescription="Stand button" accessibleText="Stand button" mnemonicParsing="false" prefHeight="27.0" prefWidth="121.0" style="-fx-background-color: rgb(202,202,116);" text="STAND">
                      <font>
                         <Font name="Bodoni MT Black" size="14.0" />
                      </font>

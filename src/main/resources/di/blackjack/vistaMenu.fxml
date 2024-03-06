@@ -9,7 +9,7 @@
     <children>
         <Button fx:id="bEnter" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="300.0" style="-fx-background-color: trasparent;">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView accessibleHelp="Enter button" accessibleRoleDescription="Enter button" accessibleText="Enter button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/entrar.png" />
                </image>
@@ -17,7 +17,7 @@
          </graphic></Button>
         <Button fx:id="bExitGame" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: trasparent;">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView accessibleHelp="Exit button" accessibleRoleDescription="Exit button" accessibleText="Exit button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/salir.png" />
                </image>
@@ -25,7 +25,7 @@
          </graphic></Button>
         <Button fx:id="bCoins" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: trasparent;">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView accessibleHelp="Scores button" accessibleRoleDescription="Scores button" accessibleText="Scores button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@img/puntuaciones.png" />
                </image>
