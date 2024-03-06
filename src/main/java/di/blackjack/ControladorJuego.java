@@ -26,6 +26,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ControladorJuego implements Initializable {
@@ -57,6 +58,8 @@ public class ControladorJuego implements Initializable {
 
     private Partida partida = new Partida();
 
+    private HashMap<String, Integer> ranking = new HashMap<String, Integer>();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.ventanaUsuario();
@@ -73,17 +76,20 @@ public class ControladorJuego implements Initializable {
             cUsuario = (TextField) contenido.lookup("#cUsuario");
 
             bLogin = (Button) contenido.lookup("#bLogin");
-            bLogin.setOnAction(e -> guardarUsuario());
-
-
-            this.mostrarMenu();
+            bLogin.setOnAction(e -> guardarUsuario(cUsuario.getText()));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void guardarUsuario() {
+    private void guardarUsuario(String usuario) {
+        this.partida.setUsuario(usuario);
+        this.mostrarMenu();
+    }
+
+    private void rankingUsuarios(String usuario) {
+        this.ranking.put(usuario, this.partida.getCreditos());
 
     }
 

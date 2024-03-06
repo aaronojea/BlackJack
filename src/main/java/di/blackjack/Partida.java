@@ -11,9 +11,7 @@ public class Partida {
     List<ModeloCarta> maquina;
     List<ModeloCarta> jugador;
 
-    int creditos = 10;
-
-    int contadorVictorias = 0;
+    int creditos = 1;
 
     String usuario;
 
@@ -110,14 +108,6 @@ public class Partida {
 
     public void setCreditos(int creditos) {
         this.creditos = creditos;
-    }
-
-    public int getContadorVictorias() {
-        return contadorVictorias;
-    }
-
-    public void setContadorVictorias(int contadorVictorias) {
-        this.contadorVictorias = contadorVictorias;
     }
 
     public String getUsuario() {
