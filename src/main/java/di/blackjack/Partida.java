@@ -11,6 +11,12 @@ public class Partida {
     List<ModeloCarta> maquina;
     List<ModeloCarta> jugador;
 
+    int creditos = 10;
+
+    int contadorVictorias = 0;
+
+    String usuario;
+
     public Partida() {}
 
     public void iniciarPartida() {
@@ -34,7 +40,6 @@ public class Partida {
                 this.baraja.add(carta);
             }
         }
-        //System.out.println(baraja.toString());
     }
 
     //Método para sacar una carta de la baraja que aún no esté fuera
@@ -97,6 +102,30 @@ public class Partida {
 
     public void setJugador(List<ModeloCarta> jugador) {
         this.jugador = jugador;
+    }
+
+    public int getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(int creditos) {
+        this.creditos = creditos;
+    }
+
+    public int getContadorVictorias() {
+        return contadorVictorias;
+    }
+
+    public void setContadorVictorias(int contadorVictorias) {
+        this.contadorVictorias = contadorVictorias;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public int puntos(List<ModeloCarta> cartas ){

@@ -23,7 +23,7 @@
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <children>
-                        <Button fx:id="bExit" accessibleHelp=" Exit button" accessibleRoleDescription=" Exit button" accessibleText="Exit button" mnemonicParsing="false" prefHeight="27.0" prefWidth="101.0" style="-fx-background-color: rgb(202,202,116);" text="EXIT">
+                        <Button fx:id="bExit" accessibleHelp=" Exit button" accessibleRoleDescription=" Exit button" accessibleText="Exit button" mnemonicParsing="false" prefHeight="27.0" prefWidth="101.0" style="-fx-background-color: rgb(202,202,116); -fx-background-radius: 10;" text="EXIT">
                            <font>
                               <Font name="Bodoni MT Black" size="14.0" />
                            </font>
@@ -40,7 +40,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="165.0" style="-fx-background-color: green;" text="Points Machine:">
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="165.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Machine">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -48,7 +48,7 @@
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="puntosMaquina" accessibleHelp="Machine points" accessibleRoleDescription="Machine points" accessibleText="Machine points" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black;" text="0" textFill="WHITE" GridPane.columnIndex="1">
+                                    <Label fx:id="puntosMaquina" accessibleHelp="Machine points" accessibleRoleDescription="Machine points" accessibleText="Machine points" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black; -fx-background-radius: 10;" text="0" textFill="WHITE" GridPane.columnIndex="1">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
@@ -64,7 +64,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" />
                      </padding>
                      <children>
-                        <Button fx:id="bHit" accessibleHelp="Hit button" accessibleRoleDescription="Hit button" accessibleText="Hit button" mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: rgb(202,202,116);" text="HIT">
+                        <Button fx:id="bHit" accessibleHelp="Hit button" accessibleRoleDescription="Hit button" accessibleText="Hit button" mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: rgb(202,202,116); -fx-background-radius: 10;" text="HIT">
                            <font>
                               <Font name="Bodoni MT Black" size="14.0" />
                            </font>
@@ -80,7 +80,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="166.0" style="-fx-background-color: greeb;" text="Points Player:">
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="166.0" style="-fx-background-color: red; -fx-background-radius: 20;" text="Player:">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -88,7 +88,7 @@
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="puntosJugador" accessibleHelp="Player points" accessibleRoleDescription="Player points" accessibleText="Player points" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black;" text="0" textFill="WHITE" GridPane.columnIndex="1">
+                                    <Label fx:id="puntosJugador" accessibleHelp="Player points" accessibleRoleDescription="Player points" accessibleText="Player points" alignment="CENTER" prefHeight="36.0" prefWidth="28.0" style="-fx-background-color: black; -fx-background-radius: 10;" text="0" textFill="WHITE" GridPane.columnIndex="1">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
@@ -116,12 +116,12 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label fx:id="coins" accessibleHelp="Coins " accessibleRoleDescription="Coins " accessibleText="Conis " alignment="CENTER" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: #FFFFFF;" text="5" GridPane.columnIndex="1">
+                        <Label fx:id="coins" accessibleHelp="Coins " accessibleRoleDescription="Coins " accessibleText="Conis " alignment="CENTER" prefHeight="27.0" prefWidth="36.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;" GridPane.columnIndex="1">
                            <font>
                               <Font name="Bodoni MT Black" size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="73.0" layoutY="6.0" prefHeight="27.0" prefWidth="63.0" style="-fx-background-color: #FFFFFF;" text="Coins:">
+                        <Label alignment="CENTER" layoutX="73.0" layoutY="6.0" prefHeight="27.0" prefWidth="63.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5;" text="Coins:">
                            <font>
                               <Font name="Bodoni MT Black" size="18.0" />
                            </font>
@@ -129,7 +129,7 @@
                      </children>
                   </GridPane>
                   <Carta fx:id="carta2" accessibleHelp="Deck" accessibleRoleDescription="Deck" accessibleText="Deck" />
-                  <Button fx:id="bStand" accessibleHelp="Stand button" accessibleRoleDescription="Stand button" accessibleText="Stand button" mnemonicParsing="false" prefHeight="27.0" prefWidth="121.0" style="-fx-background-color: rgb(202,202,116);" text="STAND">
+                  <Button fx:id="bStand" accessibleHelp="Stand button" accessibleRoleDescription="Stand button" accessibleText="Stand button" mnemonicParsing="false" prefHeight="27.0" prefWidth="121.0" style="-fx-background-color: rgb(202,202,116); -fx-background-radius: 10;" text="STAND">
                      <font>
                         <Font name="Bodoni MT Black" size="14.0" />
                      </font>
@@ -137,6 +137,9 @@
                </children>
             </VBox>
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </HBox>
    </children>
 </AnchorPane>

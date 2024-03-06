@@ -9,8 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +36,7 @@ public class ControladorJuego implements Initializable {
     private Button bExit;
     private Button bHit;
     private Button bStand;
+    private Button bLogin;
 
     private AnchorPane cMaquina, cJugador;
 
@@ -50,11 +53,38 @@ public class ControladorJuego implements Initializable {
 
     private Label cTexto;
 
+    private TextField cUsuario;
+
     private Partida partida = new Partida();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.mostrarMenu();
+        this.ventanaUsuario();
+    }
+
+    private void ventanaUsuario() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ventanaUsuario.fxml"));
+
+            contenido.getChildren().clear();
+            contenido.getChildren().add(loader.load());
+
+            cUsuario = (TextField) contenido.lookup("#cUsuario");
+
+            bLogin = (Button) contenido.lookup("#bLogin");
+            bLogin.setOnAction(e -> guardarUsuario());
+
+
+            this.mostrarMenu();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void guardarUsuario() {
+
     }
 
     private void mostrarMenu() {
@@ -113,8 +143,23 @@ public class ControladorJuego implements Initializable {
                     throw new RuntimeException(ex);
                 }
             });
+
             this.partida.iniciarPartida();
-            this.puntuacionJugador(1, "restar");
+
+            int creditos = this.calcularCreditos(1, "restar");
+            if(creditos > 0) {
+                this.ponerCreditos(creditos);
+            }else {
+                this.ponerCreditos(creditos);
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("NO COINS");
+                alert.setHeaderText("WARNING");
+                alert.setContentText("You are out of coins, come back later");
+                alert.showAndWait();
+                Platform.exit();
+            }
+
             this.carta2.setImagen("Acarta");
 
             this.mostrarCarta(cJugador, this.partida.cartaJugador(), true);
@@ -149,7 +194,6 @@ public class ControladorJuego implements Initializable {
 
     void plantarse() throws IOException, InterruptedException {
         desvelarCartas();
-        //ponerPuntos(cMaquina);
         jugarIA();
         ponerPuntos(cMaquina);
     }
@@ -207,21 +251,21 @@ public class ControladorJuego implements Initializable {
         if(this.partida.puntos(this.partida.maquina) > 21) {
             if(this.partida.puntos(this.partida.jugador) == 21) {
                 System.out.println("NORABOA BLACK JACK, MAIS 2 PUNTOS");
-                mensaje = "Black jack, you have won two coins";
+                mensaje = "Black jack, you have won three coins";
                 imagen = "youwin";
-                puntuacionJugador(3, "sumar");
+                ponerCreditos(calcularCreditos(3, "sumar"));
             }else {
                 System.out.println("Noraboa, mais 1 punto");
-                mensaje = "You have won a coin";
+                mensaje = "You have won two coins";
                 imagen = "youwin";
-                puntuacionJugador(2, "sumar");
+                ponerCreditos(calcularCreditos(2, "sumar"));
             }
         }else if (this.partida.puntos(this.partida.maquina) == 21) {
             if(this.partida.puntos(this.partida.jugador) == 21) {
                 System.out.println("EMPATE");
                 mensaje = "OH, you tied";
                 imagen = "tied";
-                puntuacionJugador(1, "sumar");
+                ponerCreditos(calcularCreditos(1, "sumar"));
             }else {
                 System.out.println("HAS PERDIDO");
                 mensaje = "OH, you lost";
@@ -235,7 +279,7 @@ public class ControladorJuego implements Initializable {
             }
         }
         Timeline timeline=new Timeline(
-                new KeyFrame(Duration.millis(3000))
+                new KeyFrame(Duration.millis(2000))
         );
         String finalMensaje = mensaje;
         String finalImagen = imagen;
@@ -273,24 +317,22 @@ public class ControladorJuego implements Initializable {
         }
     }
 
-    public void puntuacionJugador(int puntos, String operacion) {
+    public int calcularCreditos(int puntos, String operacion) {
 
-        int puntosJugador = Integer.parseInt(coins.getText());
+        int puntosJugador = 0;
 
         if(operacion == "sumar") {
-            puntosJugador += puntos;
+            puntosJugador = this.partida.getCreditos() + puntos;
         }else {
-            puntosJugador -= puntos;
+            puntosJugador = this.partida.getCreditos() - puntos;
         }
 
-        this.coins.setText(String.valueOf(puntosJugador));
+        this.partida.setCreditos(puntosJugador);
 
-        try {
+        return puntosJugador;
+    }
 
-            BufferedWriter bw =  new BufferedWriter(new FileWriter("puntuaciones.txt"));
-
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void ponerCreditos(int creditos) {
+        this.coins.setText(String.valueOf(creditos));
     }
 }
