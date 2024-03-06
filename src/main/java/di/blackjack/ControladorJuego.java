@@ -1,6 +1,8 @@
 package di.blackjack;
 
 import di.componentesblackjack.carta.Carta;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +11,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,9 +46,9 @@ public class ControladorJuego implements Initializable {
 
     private ImageView imagenView;
 
-    private Button bAccept;
+    private Button bAceptar, bCerrar;
 
-    private TextField cTexto;
+    private Label cTexto;
 
     private Partida partida = new Partida();
 
@@ -92,7 +98,9 @@ public class ControladorJuego implements Initializable {
             carta2 = (Carta) contenido.lookup("#carta2");
 
             bHit = (Button) contenido.lookup("#bHit");
-            bHit.setOnAction(e -> pedirCarta());
+            bHit.setOnAction(e -> {
+                pedirCarta();
+            });
 
             bExit = (Button) contenido.lookup("#bExit");
             bExit.setOnAction(e -> retirarse());
@@ -101,7 +109,7 @@ public class ControladorJuego implements Initializable {
             bStand.setOnAction(e -> {
                 try {
                     plantarse();
-                } catch (IOException ex) {
+                } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
             });
@@ -130,6 +138,8 @@ public class ControladorJuego implements Initializable {
         this.ponerPuntos(cJugador);
         if(this.partida.puntos(this.partida.jugador) > 21) {
             System.out.println("HAS PERDIDO");
+            desvelarCartas();
+            abrirVentana("OH, you lost", "gameover");
         }
     }
 
@@ -137,7 +147,7 @@ public class ControladorJuego implements Initializable {
         mostrarMenu();
     }
 
-    void plantarse() throws IOException {
+    void plantarse() throws IOException, InterruptedException {
         desvelarCartas();
         //ponerPuntos(cMaquina);
         jugarIA();
@@ -176,14 +186,12 @@ public class ControladorJuego implements Initializable {
     }
 
     public void desvelarCartas() {
-
         Carta c= (Carta) this.cMaquina.getChildren().get(this.cMaquina.getChildren().size()-1);
         ModeloCarta carta = this.partida.maquina.get(this.partida.maquina.size() - 1);
-        System.out.println(c);
         c.setImagen(carta.getImagen());
     }
 
-    public void jugarIA() throws IOException {
+    public void jugarIA() throws IOException, InterruptedException {
 
         while (this.partida.puntos(this.partida.maquina) < this.partida.puntos(this.partida.jugador)) {
             this.mostrarCarta(cMaquina, this.partida.cartaMaquina(), true);
@@ -192,55 +200,77 @@ public class ControladorJuego implements Initializable {
         comprobarResultado();
     }
 
-    public void comprobarResultado() throws IOException {
-        String mensaje="";
+    public void comprobarResultado() throws IOException, InterruptedException {
+        String mensaje = "";
+        String imagen = "";
 
         if(this.partida.puntos(this.partida.maquina) > 21) {
             if(this.partida.puntos(this.partida.jugador) == 21) {
                 System.out.println("NORABOA BLACK JACK, MAIS 2 PUNTOS");
-                mensaje="NORABOA BLACK JACK, MAIS 2 PUNTOS";
+                mensaje = "Black jack, you have won two coins";
+                imagen = "youwin";
                 puntuacionJugador(3, "sumar");
             }else {
                 System.out.println("Noraboa, mais 1 punto");
-                mensaje="Noraboa, mais 1 punto";
+                mensaje = "You have won a coin";
+                imagen = "youwin";
                 puntuacionJugador(2, "sumar");
             }
         }else if (this.partida.puntos(this.partida.maquina) == 21) {
             if(this.partida.puntos(this.partida.jugador) == 21) {
                 System.out.println("EMPATE");
-                mensaje="EMPATE";
+                mensaje = "OH, you tied";
+                imagen = "tied";
                 puntuacionJugador(1, "sumar");
             }else {
                 System.out.println("HAS PERDIDO");
-                mensaje="HAS PERDIDO";
+                mensaje = "OH, you lost";
+                imagen = "gameover";
             }
         }else {
             if(this.partida.puntos(this.partida.maquina) >= this.partida.puntos(this.partida.jugador)) {
                 System.out.println("HAS PERDIDO");
-                mensaje="HAS PERDIDO";
+                mensaje = "OH, you lost";
+                imagen = "gameover";
             }
         }
-        abrirVentana(mensaje);
-        //nuevaPartida();
+        Timeline timeline=new Timeline(
+                new KeyFrame(Duration.millis(3000))
+        );
+        String finalMensaje = mensaje;
+        String finalImagen = imagen;
+        timeline.setOnFinished(e-> abrirVentana(finalMensaje, finalImagen));
+        timeline.playFromStart();
+
     }
 
-    public void abrirVentana(String mensaje) throws IOException {
-        
-        Stage stage = new Stage();
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("ventanaInfo.fxml"));
+    public void abrirVentana(String mensaje, String imagen) {
 
-        Parent root = loader.load();
+        try {
 
-        stage.setScene(new Scene(root));
-        stage.setTitle("Ventana Modal");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.show();
-        Button bAceptar = (Button) root.lookup("#bAceptar");
-        bAceptar.setOnAction(event -> {
-            nuevaPartida();
-            stage.close();
-        });
+            Stage stage = new Stage();
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("ventanaInfo.fxml"));
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Ventana Modal");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+
+            stage.show();
+            bAceptar = (Button) root.lookup("#bAceptar");
+            bAceptar.setOnAction(event -> {
+                nuevaPartida();
+                stage.close();
+            });
+            imagenView = (ImageView) root.lookup("#imagenView");
+            Image img = new Image(getClass().getResourceAsStream("img/"+imagen+".png"));
+            imagenView.setImage(img);
+            cTexto = (Label) root.lookup("#cTexto");
+            cTexto.setText(mensaje);
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void puntuacionJugador(int puntos, String operacion) {
@@ -254,5 +284,13 @@ public class ControladorJuego implements Initializable {
         }
 
         this.coins.setText(String.valueOf(puntosJugador));
+
+        try {
+
+            BufferedWriter bw =  new BufferedWriter(new FileWriter("puntuaciones.txt"));
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

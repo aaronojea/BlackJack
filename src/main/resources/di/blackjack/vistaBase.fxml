@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="di.blackjack.ControladorJuego">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="di.blackjack.ControladorJuego">
    <children>
-       <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" prefHeight="77.0" prefWidth="980.0" style="-fx-background-color: #000000;">
+       <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" prefHeight="118.0" prefWidth="980.0" style="-fx-background-color: #000000;">
            <graphic>
                <ImageView fitHeight="100.0" fitWidth="438.0" pickOnBounds="true" preserveRatio="true">
                    <image>
@@ -18,7 +18,7 @@
                </ImageView>
            </graphic>
        </Label>
-      <AnchorPane fx:id="contenido" prefHeight="628.0" prefWidth="970.0" style="-fx-background-color: #007F0E;">
+      <AnchorPane fx:id="contenido" prefHeight="703.0" prefWidth="980.0" style="-fx-background-color: #007F0E;">
          <VBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </VBox.margin>
