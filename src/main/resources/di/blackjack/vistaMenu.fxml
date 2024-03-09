@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="980.0" spacing="10.0" style="-fx-background-color: #007F0E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="980.0" spacing="30.0" style="-fx-background-color: #007F0E;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Button fx:id="bEnter" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="300.0" style="-fx-background-color: trasparent;">
-         <graphic>
-            <ImageView accessibleHelp="Enter button" accessibleRoleDescription="Enter button" accessibleText="Enter button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@img/entrar.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
-        <Button fx:id="bExitGame" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: trasparent;">
-         <graphic>
-            <ImageView accessibleHelp="Exit button" accessibleRoleDescription="Exit button" accessibleText="Exit button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@img/salir.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
-        <Button fx:id="bCoins" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: trasparent;">
-         <graphic>
-            <ImageView accessibleHelp="Scores button" accessibleRoleDescription="Scores button" accessibleText="Scores button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@img/puntuaciones.png" />
-               </image>
-            </ImageView>
-         </graphic></Button>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <children>
+              <Button fx:id="bEnter" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="300.0" style="-fx-background-color: trasparent;">
+               <graphic>
+                  <ImageView accessibleHelp="Enter button" accessibleRoleDescription="Enter button" accessibleText="Enter button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/entrar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+              <Button fx:id="bExitGame" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: trasparent;">
+               <graphic>
+                  <ImageView accessibleHelp="Exit button" accessibleRoleDescription="Exit button" accessibleText="Exit button" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/salir.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
     </children>
 </VBox>

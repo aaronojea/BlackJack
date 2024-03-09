@@ -4,15 +4,17 @@ import di.componentesblackjack.carta.Carta;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -21,44 +23,40 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControladorJuego implements Initializable {
 
+    //Componentes de la vista vistaBase
+    @FXML
+    private AnchorPane contenido;
+
+    //Componentes de la vista ventanaUsuario
+    private Button bLogin;
+    private TextField cUsuario;
+
+    //Componentes de la vista vistaMenu
     private Button bEnter;
     private Button bExitGame;
-    private Button bCoins;
+
+    //Componentes de la vista vistaJuego
     private Button bExit;
     private Button bHit;
     private Button bStand;
-    private Button bLogin;
-
     private AnchorPane cMaquina, cJugador;
-
     private Label puntosMaquina, puntosJugador, coins;
 
-    @FXML
-    AnchorPane contenido;
-
-    private Carta carta2;
-
+    //Componentes de la vista vistaInfo
     private ImageView imagenView;
-
-    private Button bAceptar, bCerrar;
-
+    private Button bAceptar;
     private Label cTexto;
 
-    private TextField cUsuario;
+    //Componente reutilizable echo en otro proyecto
+    private Carta carta2;
 
     private Partida partida = new Partida();
-
-    private HashMap<String, Integer> ranking = new HashMap<String, Integer>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -88,9 +86,52 @@ public class ControladorJuego implements Initializable {
         this.mostrarMenu();
     }
 
-    private void rankingUsuarios(String usuario) {
-        this.ranking.put(usuario, this.partida.getCreditos());
+    private void rankingUsuarios() {
 
+        cargarDatos(this.partida.ranking);
+
+        this.partida.ranking.put(this.partida.getUsuario(), this.partida.getCreditos());
+
+        Map<String, Integer> treeMap = new TreeMap<>(this.partida.ranking);
+
+        guardarDatos(treeMap);
+    }
+
+    private void cargarDatos(HashMap<String, Integer> ranking) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader("ranking.txt"))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                ranking.put(datos[0], Integer.valueOf(datos[1]));
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void guardarDatos(Map<String, Integer> treeMap) {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("ranking.txt"))){
+
+            for(Map.Entry<String, Integer> e: treeMap.entrySet()) {
+
+                bw.write(e.getKey()+","+e.getValue());
+
+                bw.newLine();
+            }
+
+            bw.close();
+
+            for (Map.Entry<String, Integer> e : treeMap.entrySet()) {
+                System.out.println("-> key: " + e.getKey() + " - value: " + e.getValue());
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void mostrarMenu() {
@@ -107,9 +148,6 @@ public class ControladorJuego implements Initializable {
 
             bExitGame = (Button) contenido.lookup("#bExitGame");
             bExitGame.setOnAction(e -> Platform.exit());
-
-            bCoins = (Button) contenido.lookup("#bCoins");
-            bCoins.setOnAction(e -> mostrarPuntuaciones());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -195,7 +233,8 @@ public class ControladorJuego implements Initializable {
     }
 
     void retirarse() {
-        mostrarMenu();
+        this.rankingUsuarios();
+        this.mostrarMenu();
     }
 
     void plantarse() throws IOException, InterruptedException {

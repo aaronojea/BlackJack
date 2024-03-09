@@ -1,6 +1,7 @@
 package di.blackjack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -11,9 +12,11 @@ public class Partida {
     List<ModeloCarta> maquina;
     List<ModeloCarta> jugador;
 
-    int creditos = 1;
+    int creditos = 10;
 
     String usuario;
+
+    HashMap<String, Integer> ranking = new HashMap<>();
 
     public Partida() {}
 
@@ -116,6 +119,14 @@ public class Partida {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public HashMap<String, Integer> getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(HashMap<String, Integer> ranking) {
+        this.ranking = ranking;
     }
 
     public int puntos(List<ModeloCarta> cartas ){
