@@ -1,5 +1,13 @@
 package di.blackjack;
 
+/*
+ * Clase: ControladorVistaPruebas
+ * Autor: Aarón Ojea Olmos
+ * Fecha de creación: 2024
+ * Descripción-Enunciado: Clase controlador de la interfaz gráfica de las vistas del juego. Aquí se implementa como se verán
+ *                        las cartas, se coloquen los puntos en sus marcadores y etc...
+ */
+
 import di.componentesblackjack.carta.Carta;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -63,6 +71,8 @@ public class ControladorJuego implements Initializable {
         this.ventanaUsuario();
     }
 
+    //Método que carga en la vistaBase la vista de ventanaUsuario. Cogiendo así de ella sus componentes para poder
+    //utilizarlos en otros métodos y añadirles funcionalidad.
     private void ventanaUsuario() {
         try {
 
@@ -81,59 +91,16 @@ public class ControladorJuego implements Initializable {
         }
     }
 
+    //Método que llama el boton aceptar de la vista de ventanaUsuario, en el guarda en el atributo usuario de la clase
+    //partida el texto que será el nombre de un usuario introducido en el campo de texto de la ventanaUsuario. Luego llama
+    //al método mostrarMenu
     private void guardarUsuario(String usuario) {
         this.partida.setUsuario(usuario);
         this.mostrarMenu();
     }
 
-    private void rankingUsuarios() {
-
-        cargarDatos(this.partida.ranking);
-
-        this.partida.ranking.put(this.partida.getUsuario(), this.partida.getCreditos());
-
-        Map<String, Integer> treeMap = new TreeMap<>(this.partida.ranking);
-
-        guardarDatos(treeMap);
-    }
-
-    private void cargarDatos(HashMap<String, Integer> ranking) {
-
-        try (BufferedReader br = new BufferedReader(new FileReader("ranking.txt"))) {
-
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
-                ranking.put(datos[0], Integer.valueOf(datos[1]));
-            }
-
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void guardarDatos(Map<String, Integer> treeMap) {
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("ranking.txt"))){
-
-            for(Map.Entry<String, Integer> e: treeMap.entrySet()) {
-
-                bw.write(e.getKey()+","+e.getValue());
-
-                bw.newLine();
-            }
-
-            bw.close();
-
-            for (Map.Entry<String, Integer> e : treeMap.entrySet()) {
-                System.out.println("-> key: " + e.getKey() + " - value: " + e.getValue());
-            }
-
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    //Método que carga en la vistaBase la vista de vistaMenu. Cogiendo así de ella sus componentes para poder
+    //utilizarlos en otros métodos y añadirles funcionalidad.
     private void mostrarMenu() {
 
         try {
@@ -154,6 +121,9 @@ public class ControladorJuego implements Initializable {
         }
     }
 
+    //Este método es llamado por el boton de Enter que hay en la vistaMenu. Carga en la vistaBase la vista de vistaJuego.
+    //Cogiendo así de ella sus componentes para poder utilizarlos en otros métodos y añadirles funcionalidad.
+    //Tambien utilizando la clase partida inicia la lógica del juego.
     private void nuevaPartida() {
 
         try {
@@ -188,8 +158,11 @@ public class ControladorJuego implements Initializable {
                 }
             });
 
+            //Método de la clase Partida
             this.partida.iniciarPartida();
 
+            //Aquí al iniciar el juego le resta un crédito que significa la apuesta del jugador. En cada partida apuesta
+            //1 la máquina y uno el jugador. Luego comprueba si tiene créditos o no para poder jugar.
             int creditos = this.calcularCreditos(1, "restar");
             if(creditos > 0) {
                 this.ponerCreditos(creditos);
@@ -218,10 +191,8 @@ public class ControladorJuego implements Initializable {
         }
     }
 
-    private void mostrarPuntuaciones() {
-
-    }
-
+    //Este método es llamado por el boton Hit. Coloca una carta en el AncchorPane del jugador, le suma su valor en sus puntos.
+    //Luego comprueba si se ha pasado de 21, si es así el jugador ya ha perdido la partida.
     void pedirCarta() {
         this.mostrarCarta(cJugador, this.partida.cartaJugador(), true);
         this.ponerPuntos(cJugador);
@@ -232,17 +203,24 @@ public class ControladorJuego implements Initializable {
         }
     }
 
+    //Este método es llamado por el botón Exit. Sale del juego y vuelve a la vista del menu. Primero le devuelve el crédito que
+    //apuesta al iniciar la partida porque esta no la juega se retira.
     void retirarse() {
+        this.ponerCreditos(calcularCreditos(1, "sumar"));
         this.rankingUsuarios();
         this.mostrarMenu();
     }
 
+    //Este método es llamado por el boton Stand. Cuando el jugador no quiere más cartas le da a este boton. Se muestran las
+    //cartas de la máquina y empieza a jugar la máquina, luego se ponen los puntos que tenga.
     void plantarse() throws IOException, InterruptedException {
         desvelarCartas();
         jugarIA();
         ponerPuntos(cMaquina);
     }
 
+    //Este método coloca el componente carta correspondiente al modelo en el AnchorPane indicado, el del jugador
+    //o el de la máquina
     public void mostrarCarta(AnchorPane zona, ModeloCarta carta, boolean volteada) {
         Carta c = new Carta();
         int x=0;
@@ -263,6 +241,8 @@ public class ControladorJuego implements Initializable {
         zona.getChildren().add(c);
     }
 
+    //En este método se le indica a quien hay que poner los puntos si al jugador o a la máquina y con el método puntos
+    //de la clase Partida suma los valores de las cartas y los pone en el marcador indicado.
     public void ponerPuntos(AnchorPane zona) {
 
         if (zona==cMaquina){
@@ -274,12 +254,14 @@ public class ControladorJuego implements Initializable {
         }
     }
 
+    //Este método gira las cartas de la máquina que están volteadas para poder verlas.
     public void desvelarCartas() {
         Carta c= (Carta) this.cMaquina.getChildren().get(this.cMaquina.getChildren().size()-1);
         ModeloCarta carta = this.partida.maquina.get(this.partida.maquina.size() - 1);
         c.setImagen(carta.getImagen());
     }
 
+    //Juego de la máquina. Pedirá cartas hasta superar en puntos al jugador.
     public void jugarIA() throws IOException, InterruptedException {
 
         while (this.partida.puntos(this.partida.maquina) < this.partida.puntos(this.partida.jugador)) {
@@ -289,6 +271,7 @@ public class ControladorJuego implements Initializable {
         comprobarResultado();
     }
 
+    //Una vez para de pedir cartas la máquina se comprueba el resultado. Si gana la máquina, el jugador, hay empate o BlackJack.
     public void comprobarResultado() throws IOException, InterruptedException {
         String mensaje = "";
         String imagen = "";
@@ -333,6 +316,8 @@ public class ControladorJuego implements Initializable {
 
     }
 
+    //Este método abre una ventana que carga la vista de ventanaInfo. Esta ventana se muestra una vez comprobado el resultado.
+    //Mostrando si el jugador ha perdido o ganado.
     public void abrirVentana(String mensaje, String imagen) {
 
         try {
@@ -362,6 +347,7 @@ public class ControladorJuego implements Initializable {
         }
     }
 
+    //Este método resta o suma los créditos del jugador segun gane o pierda
     public int calcularCreditos(int puntos, String operacion) {
 
         int puntosJugador = 0;
@@ -377,7 +363,57 @@ public class ControladorJuego implements Initializable {
         return puntosJugador;
     }
 
+    //Este método pone en el marcador de créditos del jugador los créditos que tiene en todo momento.
     public void ponerCreditos(int creditos) {
         this.coins.setText(String.valueOf(creditos));
+    }
+
+    //Este método añade en el HashMap el nombre y los créditos con los que acaba un jugador, luego lo pasa a un TreeMap
+    //para poder ordenarlos por los nombres. Luego los guarda en un archivo de texto.
+    private void rankingUsuarios() {
+
+        cargarDatos(this.partida.ranking);
+
+        this.partida.ranking.put(this.partida.getUsuario(), this.partida.getCreditos());
+
+        Map<String, Integer> treeMap = new TreeMap<>(this.partida.ranking);
+
+        guardarDatos(treeMap);
+    }
+
+    //Este método carga en el HashMap los registros ya guardados en el archivo, para que al guardar un nuevo registro
+    //aparezcan los que ya hay.
+    private void cargarDatos(HashMap<String, Integer> ranking) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader("ranking.txt"))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                ranking.put(datos[0], Integer.valueOf(datos[1]));
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Este método guarda los valores del TreeMap en un archivo de texto.
+    private void guardarDatos(Map<String, Integer> treeMap) {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("ranking.txt"))){
+
+            for(Map.Entry<String, Integer> e: treeMap.entrySet()) {
+
+                bw.write(e.getKey()+","+e.getValue());
+
+                bw.newLine();
+            }
+
+            bw.close();
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

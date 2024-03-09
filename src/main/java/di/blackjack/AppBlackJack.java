@@ -1,5 +1,12 @@
 package di.blackjack;
 
+/*
+ * Clase: CompeticionApp
+ * Autor: Aarón Ojea Olmos
+ * Fecha de creación: 2024
+ * Descripción-Enunciado: Clase que ejecuta la vista base.
+ */
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

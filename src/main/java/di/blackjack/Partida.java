@@ -1,5 +1,13 @@
 package di.blackjack;
 
+/*
+ * Clase: CompeticionApp
+ * Autor: Aarón Ojea Olmos
+ * Fecha de creación: 2024
+ * Descripción-Enunciado: Clase que implementa toda la lógica del juego. Aquí controla donde se guardan las cartas que le tocan
+ *                        a cada uno, crea la baraja con sus palos y valores, etc...
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,6 +137,7 @@ public class Partida {
         this.ranking = ranking;
     }
 
+    //Método que cuenta de cada array de cartas, sumando cada valor de las cartas del array.
     public int puntos(List<ModeloCarta> cartas ){
         int suma=0;
 

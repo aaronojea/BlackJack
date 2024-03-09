@@ -1,5 +1,12 @@
 package di.blackjack;
 
+/*
+ * Clase: CompeticionApp
+ * Autor: Aarón Ojea Olmos
+ * Fecha de creación: 2024
+ * Descripción-Enunciado: Clase modelo de la carta necesaria para poder utilizarla en la lógica del juego.
+ */
+
 public class ModeloCarta {
 
     private Character palo;
